@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Update Rekening</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      width: 100%;
+      font-size: 1rem;
+      background-color: #102e58;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0c2243;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Update Data Rekening</h2>
+    <label for="bank">BANK</label>
+    <input type="text" id="bank" placeholder="Contoh: BRI" />
+
+    <label for="name">Nama</label>
+    <input type="text" id="name" placeholder="Contoh: WIRI JIBRIL" />
+
+    <label for="account">Nomor Rekening</label>
+    <input type="text" id="account" placeholder="Contoh: 349401000020565" />
+
+    <button onclick="updateData()">Update</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    async function updateData() {
+      const bank = document.getElementById("bank").value;
+      const name = document.getElementById("name").value;
+      const account = document.getElementById("account").value;
+
+      const url = "https://script.google.com/macros/s/AKfycbyVH0Jb8l0U4r1ZaV7bsqq07hnhok80LhclmyAcO7SOGG5G2-CfT4SUsnOUshc-JD9X/exec"; // Ganti dengan URL Apps Script Anda
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bank, name, account })
+        });
+
+        const result = await res.json();
+        if (result.success) {
+          document.getElementById("status").textContent = "✅ Data berhasil diperbarui!";
+        } else {
+          document.getElementById("status").textContent = "❌ Gagal memperbarui data.";
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById("status").textContent = "❌ Error saat mengirim data.";
+      }
+    }
+  </script>
+</body>
+</html>
